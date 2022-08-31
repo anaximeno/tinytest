@@ -56,10 +56,10 @@
 #define ASSERT_STRING_EQUALS(expected, actual) ASSERT((#actual), strcmp((expected),(actual)) == 0)
 #define ASSERT_STRING_NOT_EQUALS(expected, actual) ASSERT((#actual), strcmp((expected),(actual)) != 0)
 
-#define ASSERT_EQ(expected, actual) ASSERT_EQUALS((expected), (actual))
-#define ASSERT_NE(expected, actual) ASSERT_NOT_EQUALS((expected), (actual))
-#define ASSERT_STR_EQ(expected, actual) ASSERT_STRING_EQUALS((expected), (actual))
-#define ASSERT_STR_NE(expected, actual) ASSERT_STRING_EQUALS((expected), (actual))
+#define ASSERT_EQ(expected, actual) ASSERT_EQUALS(expected, actual)
+#define ASSERT_NE(expected, actual) ASSERT_NOT_EQUALS(expected, actual)
+#define ASSERT_STR_EQ(expected, actual) ASSERT_STRING_EQUALS(expected, actual)
+#define ASSERT_STR_NE(expected, actual) ASSERT_STRING_EQUALS(expected, actual)
 
 /* Run a test() function */
 #define RUN(test_function) tt_execute((#test_function), (test_function))
@@ -70,13 +70,13 @@
 #define TT_COLOR_GREEN "[1;32m"
 #define TT_COLOR_RESET "[0m"
 
-int tt_passes = 0;
-int tt_fails = 0;
-int tt_current_test_failed = 0;
-const char* tt_current_msg = NULL;
-const char* tt_current_expression = NULL;
-const char* tt_current_file = NULL;
-int tt_current_line = 0;
+static int tt_passes = 0;
+static int tt_fails = 0;
+static int tt_current_test_failed = 0;
+static const char* tt_current_msg = NULL;
+static const char* tt_current_expression = NULL;
+static const char* tt_current_file = NULL;
+static int tt_current_line = 0;
 
 void tt_execute(const char* name, void (*test_function)())
 {
@@ -109,7 +109,7 @@ int tt_report(void)
       tt_current_file, tt_passes, tt_fails, tt_passes + tt_fails);
     return -1;
   } else {
-    printf("%c%sPASSED%c%s [%s] (total:%d)\n", 
+    printf("%c%sPASSED%c%s [%s] (total:%d)\n",
       TT_COLOR_CODE, TT_COLOR_GREEN, TT_COLOR_CODE, TT_COLOR_RESET,
       tt_current_file, tt_passes);
     return 0;
