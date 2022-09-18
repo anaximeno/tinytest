@@ -6,13 +6,13 @@
 void test_addition()
 {
   ASSERT_EQUALS(10, add_numbers(3, 7));
-  ASSERT_EQUALS(-10, add_numbers(4, -14));
+  ASSERT_EQ(-10, add_numbers(4, -14));
 }
 
 void test_that_fails()
 {
   /* this assertion fails - to demonstrate what happens */
-  ASSERT_EQUALS(10, add_numbers(3, 33));
+  ASSERT_EQ(10, add_numbers(3, 33));
   /* because of the failure, this line won't even run */
   ASSERT_EQUALS(10, add_numbers(3, 7));
 }
