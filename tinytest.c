@@ -36,13 +36,13 @@ int tt_assert(const char *file, int line, const char *msg, const char *expressio
 
 void tt_reset(void)
 {
-    int tt_passes = 0;
-    int tt_fails = 0;
-    int tt_current_test_failed = 0;
-    char *tt_current_msg = NULL;
-    char *tt_current_expression = NULL;
-    char *tt_current_file = NULL;
-    int tt_current_line = 0;
+    tt_passes = 0;
+    tt_fails = 0;
+    tt_current_test_failed = 0;
+    tt_current_msg = NULL;
+    tt_current_expression = NULL;
+    tt_current_file = NULL;
+    tt_current_line = 0;
 }
 
 int tt_report(void)
