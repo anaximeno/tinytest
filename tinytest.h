@@ -36,8 +36,10 @@
  * To run the tests, compile the tests as a binary and run it.
  *
  * Project home page: http://github.com/joewalnes/tinytest
+ * Project home page: https://github.com/anaximeno/tinytest
  *
  * 2010, -Joe Walnes <joe@walnes.com> http://joewalnes.com
+ * 2022, -Anaxímeno Brito <anaximenobrito@gmail.com> https://github.com/anaximeno
  */
 
 #ifndef _TINYTEST_INCLUDED
@@ -47,14 +49,16 @@
 #include <stdlib.h>
 
 /* Main assertion method */
-#define ASSERT(msg, expression) if (!tt_assert(__FILE__, __LINE__, (msg), (#expression), (expression) ? 1 : 0)) return
+#define ASSERT(msg, expression)                                                   \
+  if (!tt_assert(__FILE__, __LINE__, (msg), (#expression), (expression) ? 1 : 0)) \
+  return
 
 /* Convenient assertion methods */
 /* TODO: Generate readable error messages for assert_equals or assert_str_equals */
 #define ASSERT_EQUALS(expected, actual) ASSERT((#actual), (expected) == (actual))
 #define ASSERT_NOT_EQUALS(expected, actual) ASSERT((#actual), (expected) != (actual))
-#define ASSERT_STRING_EQUALS(expected, actual) ASSERT((#actual), strcmp((expected),(actual)) == 0)
-#define ASSERT_STRING_NOT_EQUALS(expected, actual) ASSERT((#actual), strcmp((expected),(actual)) != 0)
+#define ASSERT_STRING_EQUALS(expected, actual) ASSERT((#actual), strcmp((expected), (actual)) == 0)
+#define ASSERT_STRING_NOT_EQUALS(expected, actual) ASSERT((#actual), strcmp((expected), (actual)) != 0)
 
 #define ASSERT_EQ(expected, actual) ASSERT_EQUALS(expected, actual)
 #define ASSERT_NE(expected, actual) ASSERT_NOT_EQUALS(expected, actual)
@@ -73,25 +77,28 @@
 static int tt_passes = 0;
 static int tt_fails = 0;
 static int tt_current_test_failed = 0;
-static const char* tt_current_msg = NULL;
-static const char* tt_current_expression = NULL;
-static const char* tt_current_file = NULL;
+static char *tt_current_msg = NULL;
+static char *tt_current_expression = NULL;
+static char *tt_current_file = NULL;
 static int tt_current_line = 0;
 
-void tt_execute(const char* name, void (*test_function)())
+void tt_execute(const char *name, void (*test_function)())
 {
   tt_current_test_failed = 0;
   test_function();
-  if (tt_current_test_failed) {
+  if (tt_current_test_failed)
+  {
     printf("failure: %s:%d: In test %s():\n    %s (%s)\n",
-      tt_current_file, tt_current_line, name, tt_current_msg, tt_current_expression);
+           tt_current_file, tt_current_line, name, tt_current_msg, tt_current_expression);
     tt_fails++;
-  } else {
+  }
+  else
+  {
     tt_passes++;
   }
 }
 
-int tt_assert(const char* file, int line, const char* msg, const char* expression, int pass)
+int tt_assert(const char *file, int line, const char *msg, const char *expression, int pass)
 {
   tt_current_msg = msg;
   tt_current_expression = expression;
@@ -103,17 +110,36 @@ int tt_assert(const char* file, int line, const char* msg, const char* expressio
 
 int tt_report(void)
 {
-  if (tt_fails) {
+  int outcode = 0;
+
+  if (tt_fails)
+  {
     printf("%c%sFAILED%c%s [%s] (passed:%d, failed:%d, total:%d)\n",
-      TT_COLOR_CODE, TT_COLOR_RED, TT_COLOR_CODE, TT_COLOR_RESET,
-      tt_current_file, tt_passes, tt_fails, tt_passes + tt_fails);
-    return -1;
-  } else {
-    printf("%c%sPASSED%c%s [%s] (total:%d)\n",
-      TT_COLOR_CODE, TT_COLOR_GREEN, TT_COLOR_CODE, TT_COLOR_RESET,
-      tt_current_file, tt_passes);
-    return 0;
+           TT_COLOR_CODE, TT_COLOR_RED, TT_COLOR_CODE, TT_COLOR_RESET,
+           tt_current_file, tt_passes, tt_fails, tt_passes + tt_fails);
+    outcode = -1;
   }
+  else
+  {
+    printf("%c%sPASSED%c%s [%s] (total:%d)\n",
+           TT_COLOR_CODE, TT_COLOR_GREEN, TT_COLOR_CODE, TT_COLOR_RESET,
+           tt_current_file, tt_passes);
+  }
+
+  tt_reset();
+
+  return outcode;
+}
+
+void tt_reset(void)
+{
+  int tt_passes = 0;
+  int tt_fails = 0;
+  int tt_current_test_failed = 0;
+  char *tt_current_msg = NULL;
+  char *tt_current_expression = NULL;
+  char *tt_current_file = NULL;
+  int tt_current_line = 0;
 }
 
 #endif
