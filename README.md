@@ -42,6 +42,5 @@ To run the tests, compile the tests as a binary and run it.
 
 ---
 
-* 2010-2014, -Joe Walnes <joe@walnes.com> http://joewalnes.com*
-* 2022-2023, -Anaxímeno Brito <anaximenobrito@gmail.com> https://github.com/anaximeno
-
+* 2010-2014, [Joe Walnes](http://joewalnes.com) -- <joe@walnes.com>
+* 2022-2023, [Anaxímeno Brito](https://github.com/anaximeno) -- <anaximenobrito@gmail.com>
